@@ -10,7 +10,6 @@ import os
 from pathlib import Path
 from alembic import command
 from alembic.config import Config
-from dataclasses_json import config
 from sqlalchemy import inspect
 from app.core.db import Base, make_engine
 import app.models  # noqa: F401
