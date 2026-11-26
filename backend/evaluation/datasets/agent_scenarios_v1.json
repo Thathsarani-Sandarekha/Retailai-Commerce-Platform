@@ -1,0 +1,32 @@
+{
+  "dataset_id": "retailai-agent-scenarios-v1",
+  "source": "Hand-authored synthetic fixtures and expected tool sets; not held out and not real customers",
+  "cases": [
+    {"id":"exchange_leggings","channel":"customer","ticket":"N-T3","prompt":"I ordered medium leggings, but they're too small. Can I exchange them for a large?","expected_tools":["get_order","search_policies","get_exchange_options"],"needs_cart_item":false},
+    {"id":"staff_tracking","channel":"staff","ticket":"N-T1","prompt":"Track this customer's package and explain the delivery status.","expected_tools":["get_order","get_tracking","search_policies"],"needs_cart_item":false},
+    {"id":"delivery_exception","channel":"staff","ticket":"N-T5","prompt":"The package has not arrived. Check tracking and shipping policies.","expected_tools":["get_order","get_tracking","search_policies"],"needs_cart_item":false},
+    {"id":"product_to_cart_proposal","channel":"customer","ticket":"N-T3","prompt":"Find black heels in US size 8 under $100 and add one pair to my cart.","expected_tools":["search_retail_products","prepare_cart_add"],"needs_cart_item":false},
+    {"id":"read_cart","channel":"customer","ticket":"N-T3","prompt":"What is in my cart?","expected_tools":["get_my_cart"],"needs_cart_item":false},
+    {"id":"budget_outfit","channel":"customer","ticket":"N-T3","prompt":"Build an evening outfit under $220.","expected_tools":["build_budget_outfit"],"needs_cart_item":false},
+    {"id":"three_looks","channel":"customer","ticket":"N-T3","prompt":"Build three looks with blue jeans size 28, size M clothing and US 8 shoes under $250 per look.","expected_tools":["search_retail_products","build_three_looks"],"needs_cart_item":false},
+    {"id":"checkout_read_only","channel":"customer","ticket":"N-T3","prompt":"Help me checkout and place my order.","expected_tools":["get_checkout_preview"],"needs_cart_item":true}
+  ],
+  "classification_cases": [
+    {"text":"Can I exchange this top for a larger size?","label":"exchanges"},
+    {"text":"I need a different size","label":"exchanges"},
+    {"text":"My package is missing","label":"missing_package"},
+    {"text":"The parcel never arrived","label":"missing_package"},
+    {"text":"Can I get a refund?","label":"refunds"},
+    {"text":"I was charged twice","label":"refunds"},
+    {"text":"Can I return this item?","label":"returns"},
+    {"text":"I want to send it back","label":"returns"},
+    {"text":"Where is my order?","label":"order_tracking"},
+    {"text":"Give me the tracking number","label":"order_tracking"},
+    {"text":"What is the delivery fee?","label":"shipping"},
+    {"text":"Do you ship to Alaska?","label":"shipping"},
+    {"text":"Tell me your warranty policy","label":"policy_question"},
+    {"text":"Explain the terms and conditions","label":"policy_question"},
+    {"text":"Thank you for your help","label":"other"},
+    {"text":"I like the shoes","label":"other"}
+  ]
+}

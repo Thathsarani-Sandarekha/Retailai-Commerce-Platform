@@ -31,5 +31,5 @@ Thumbs.db
 # Local SQLite snapshots made by the optional screenshot-data seeder
 *.bak
 *.before-showcase-*
-backend/evaluation/
+/backend/evaluation/results/
 
