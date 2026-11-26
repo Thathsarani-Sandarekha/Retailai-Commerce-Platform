@@ -1,6 +1,6 @@
 """Optional, idempotent synthetic records for the seven-day operations dashboard.
 
-Run from RetailAI repo ROOT: python backend/scripts/seed_showcase_data.py --apply
+Run from RetailAI repo ROOT: python scripts/seed_showcase_data.py --apply
 Stop the backend first. Only SQLite is supported; your DB gets a timestamped backup.
 No actual checkout, inventory, payments or external service calls occur.
 """
@@ -13,17 +13,17 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(REPO_ROOT / "backend"))
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT))
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.db import Base, make_engine, make_session_factory
+from app.core.db import Base, make_engine, make_session_factory
 from app.models import (CheckoutReceipt, Customer, Message, Order, OrderLine,
                         ProductVariant, Tenant, Ticket)
 from app.seed import seed_demo
-from app.retail_catalog import seed_retail_catalog
+from app.commerce.retail_catalog import seed_retail_catalog
 
 DAILY_TICKETS = (3, 2, 4, 3, 5, 4, 4)
 DAILY_ORDERS = (2, 3, 3, 4, 2, 5, 3)
@@ -101,7 +101,6 @@ def seed_showcase(db: Session, now: datetime | None = None) -> dict[str, int]:
 
 
 def _configured_url() -> str:
-    # Mirrors run_backend.py's .env-file behavior without printing any secrets.
     if "DATABASE_URL" in os.environ:
         return os.environ["DATABASE_URL"]
     dotenv = REPO_ROOT / ".env"
@@ -109,7 +108,7 @@ def _configured_url() -> str:
         for line in dotenv.read_text(encoding="utf-8").splitlines():
             if line.strip().startswith("DATABASE_URL="):
                 return line.split("=", 1)[1].strip().strip('"\'')
-    return "sqlite:///./retailai_demo.db"
+    return "sqlite:///./sportswear_demo.db"
 
 
 def main() -> None:

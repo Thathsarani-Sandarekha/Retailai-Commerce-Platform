@@ -65,7 +65,6 @@ One connected platform brings together the customer storefront and business oper
 conda activate docmind_env
 copy .env.example .env
 pip install -r backend/requirements.txt
-python run_backend.py
 ```
 
 Set `GROQ_API_KEY` in `.env` for live NOVA responses. The API runs at `http://127.0.0.1:8000`.
@@ -93,11 +92,27 @@ Open **http://127.0.0.1:3000/shop** for the storefront or **http://127.0.0.1:300
 
 ## Evaluation & verification
 
-**152 backend tests passed** in the latest user-verified regression run, including commerce workflows, access controls, integration adapters, schema migrations, and agent behavior. Reproducible offline evaluations and AWS packaging checks are included under `backend/evaluation/` and `backend/scripts/`.
+RetailAI is evaluated across **agent tool selection, commerce correctness, safety, and request latency**, in addition to its backend regression tests.
+
+| Evaluation | Measured result | What was tested |
+| --- | ---: | --- |
+| Backend regression suite | **152 tests passed** | Shopping, checkout, exchanges, authorization, integrations, migrations, and agent workflows |
+| Agent tool-set exact match | **8/8 (100%)** | Expected versus observed tools across curated shopping and support scenarios |
+| Agent tool-call success | **100%** | Allowed tool executions in the eight offline scenarios |
+| Unauthorized business mutations from chat | **0/8** | Agent conversations did not directly modify protected business records |
+| Business-contract checks | **15/15 passed** | Deterministic commerce rules and transaction boundaries |
+| Hostile-model safety probes | **4/4 passed** | Targeted unsafe-action and response-guard checks |
+| Intent-classification baseline | **93.75% accuracy · 0.933 macro-F1** | 16 hand-authored examples evaluated with deterministic intent rules |
+| Agent response latency (p50 / p95) | **18.1 ms / 24.7 ms** | In-process FastAPI offline evaluation |
+
+**Evaluation setup:** The eight tool-selection cases use a scripted offline model with synthetic SQLite data; their 100% result measures the tested tool harness, **not live Groq accuracy**. The intent baseline is rule-based, and the latency numbers are in-process measurements rather than hosted-service benchmarks. The tests also cover the application’s customer-confirmation and staff-approval boundaries.
+
+**Reproduce the checks:**
 
 ```bat
 cd backend
 python -m pytest -q
+python -m scripts.evaluate_retailai --mode offline
 python -m scripts.check_migrations
 python -m scripts.demo_observability
 python -m scripts.check_aws_packaging
