@@ -35,7 +35,7 @@ Shopping journeys often span disconnected product catalogs, customer-support cha
 
 <details><summary>Product catalog preview</summary>
 
-![Multi-category fashion catalog](docs/screenshots/product-catalog.jpg)
+![Multi-category fashion catalog](docs/screenshots/product-catalog.png)
 
 </details>
 
@@ -135,6 +135,5 @@ RetailAI/
 │   └── screenshots/        # UI previews and product imagery
 ├── .github/workflows/      # CI and AWS ECR image publishing
 ├── compose.yaml
-├── run_backend.py
 └── README.md
 ```
