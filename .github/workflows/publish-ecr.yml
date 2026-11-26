@@ -1,0 +1,98 @@
+# Opt-in image publishing only. No AWS services are created or deployed by this workflow.
+# The role must trust only this repository's protected ecr-publish environment.
+name: Publish RetailAI images to Amazon ECR
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: 'Type PUBLISH to build and publish commit-tagged images (no ECS deploy)'
+        required: true
+        default: 'NO'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Verify and publish API + frontend images
+    if: ${{ inputs.confirmation == 'PUBLISH' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    environment: ecr-publish
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check out exact revision
+        uses: actions/checkout@v4
+
+      - name: Validate GitHub/AWS configuration
+        shell: bash
+        env:
+          AWS_ROLE_ARN: ${{ secrets.AWS_ECR_PUBLISH_ROLE_ARN }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          API_REPOSITORY: ${{ vars.ECR_API_REPO }}
+          WEB_REPOSITORY: ${{ vars.ECR_WEB_REPO }}
+        run: |
+          set -euo pipefail
+          test -n "$AWS_ROLE_ARN" || { echo 'Configure AWS_ECR_PUBLISH_ROLE_ARN'; exit 1; }
+          test -n "$AWS_REGION" || { echo 'Configure AWS_REGION'; exit 1; }
+          test -n "$API_REPOSITORY" || { echo 'Configure ECR_API_REPO'; exit 1; }
+          test -n "$WEB_REPOSITORY" || { echo 'Configure ECR_WEB_REPO'; exit 1; }
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install and test backend
+        run: |
+          python -m pip install -r requirements.txt
+          python -m pytest -q
+          python -m scripts.check_aws_packaging
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify frontend
+        working-directory: frontend
+        run: |
+          npm install --no-audit --no-fund
+          npm run typecheck
+          npm run build
+
+      - name: Use short-lived GitHub OIDC credentials
+        uses: aws-actions/configure-aws-credentials@v6.3.0
+        with:
+          role-to-assume: ${{ secrets.AWS_ECR_PUBLISH_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+          role-session-name: retailai-ecr-publish
+
+      - name: Log into Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag and publish the two images
+        shell: bash
+        env:
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
+          API_REPOSITORY: ${{ vars.ECR_API_REPO }}
+          WEB_REPOSITORY: ${{ vars.ECR_WEB_REPO }}
+        run: |
+          set -euo pipefail
+          IMAGE_TAG="sha-${GITHUB_SHA:0:12}"
+          API_IMAGE="${REGISTRY}/${API_REPOSITORY}:${IMAGE_TAG}"
+          WEB_IMAGE="${REGISTRY}/${WEB_REPOSITORY}:${IMAGE_TAG}"
+          docker build --pull -t "$API_IMAGE" -f Dockerfile .
+          docker build --pull -t "$WEB_IMAGE" -f frontend/Dockerfile frontend
+          docker push "$API_IMAGE"
+          docker push "$WEB_IMAGE"
+          {
+            echo '### RetailAI container images published to ECR'
+            echo "- API: `$API_IMAGE`"
+            echo "- Web: `$WEB_IMAGE`"
+            echo ''
+            echo 'Images were published only. **No ECS service was created or updated.**'
+          } >> "$GITHUB_STEP_SUMMARY"

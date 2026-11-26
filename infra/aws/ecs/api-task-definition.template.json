@@ -1,0 +1,87 @@
+{
+  "family": "retailai-api",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "networkMode": "awsvpc",
+  "cpu": "1024",
+  "memory": "2048",
+  "executionRoleArn": "arn:aws:iam::REPLACE_ACCOUNT_ID:role/retailai-ecs-execution-role",
+  "taskRoleArn": "arn:aws:iam::REPLACE_ACCOUNT_ID:role/retailai-ecs-api-task-role",
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "containerDefinitions": [
+    {
+      "name": "retailai-api",
+      "image": "REPLACE_ACCOUNT_ID.dkr.ecr.REPLACE_REGION.amazonaws.com/retailai-api:sha-REPLACE_COMMIT_SHA12",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "AWS_DEFAULT_REGION",
+          "value": "REPLACE_REGION"
+        },
+        {
+          "name": "RETAILAI_STORAGE_BACKEND",
+          "value": "s3"
+        },
+        {
+          "name": "RETAILAI_S3_BUCKET",
+          "value": "REPLACE_PRIVATE_BUCKET"
+        },
+        {
+          "name": "RETAILAI_S3_PREFIX",
+          "value": "retailai"
+        },
+        {
+          "name": "SHOPIFY_ADAPTER",
+          "value": "local"
+        },
+        {
+          "name": "RETAILAI_SEED_DEMO_DATA",
+          "value": "false"
+        },
+        {
+          "name": "RETAILAI_AI_OBSERVABILITY",
+          "value": "1"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "DATABASE_URL",
+          "valueFrom": "arn:aws:secretsmanager:REPLACE_REGION:REPLACE_ACCOUNT_ID:secret:retailai/database-url-REPLACE_SUFFIX"
+        },
+        {
+          "name": "GROQ_API_KEY",
+          "valueFrom": "arn:aws:secretsmanager:REPLACE_REGION:REPLACE_ACCOUNT_ID:secret:retailai/groq-api-key-REPLACE_SUFFIX"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/retailai/api",
+          "awslogs-region": "REPLACE_REGION",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "python -c 'import urllib.request; urllib.request.urlopen(\"http://127.0.0.1:8000/health\", timeout=5)'"
+        ],
+        "interval": 30,
+        "timeout": 7,
+        "retries": 3,
+        "startPeriod": 60
+      },
+      "readonlyRootFilesystem": false
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+
+/* Northstar Edit / NOVA — multi-category fashion and lifestyle, NOT sportswear. */
+:root{--nova-ink:#252642;--nova-blue:#3547ed;--nova-cream:#faf7ef;--nova-butter:#f2f19d}
+.store{background:var(--nova-cream)!important;color:var(--nova-ink)!important}
+.store-demo-ribbon{min-height:31px!important;background:#3547ed!important;color:white!important;display:flex;align-items:center;justify-content:center;gap:12px;font-size:9px!important;letter-spacing:.12em}
+.store-header{height:87px!important;background:#fffdf8!important;box-shadow:0 1px 0 #e6e2d7!important;padding:0 clamp(18px,4vw,70px)!important}
+.store-logo{display:flex;gap:12px;align-items:center;text-decoration:none!important}.store-logo-mark{background:#3547ed!important;color:white!important;display:grid!important;place-items:center!important;border-radius:3px!important;width:43px;height:43px}.store-logo small{color:#77798c!important;white-space:nowrap}
+.store-header nav{gap:clamp(12px,2vw,26px)!important}.store-header nav a{font-weight:800!important;white-space:nowrap}.retail-nav-chat{color:#3547ed!important;background:#f0f0ff!important;border:1px solid #cfd5ff!important;border-radius:20px!important;padding:10px 12px!important;display:flex;gap:7px;align-items:center;font-weight:800}
+.store-hero{background:#262743!important}.store-hero-text h1{color:white!important}.store-hero-cta{background:#f2f19d!important;color:#252642!important;border-color:#f2f19d!important;border-radius:5px!important}.store-hero-art{background:#f2f19d!important}
+.nova-category-rail{max-width:1530px;margin:25px auto 8px;padding:24px clamp(8px,2vw,30px);display:grid;grid-template-columns:minmax(185px,1.17fr) repeat(5,minmax(0,1fr));gap:13px;align-items:stretch;background:#fffdf9;border:1px solid #e7e2d6}
+.nova-category-intro{align-self:center;padding:8px 10px}.nova-category-intro>span{color:#3547ed;font-size:9px;font-weight:900;letter-spacing:.15em}.nova-category-intro h2{font:800 clamp(21px,2vw,29px)/1.06 'Space Grotesk',sans-serif;letter-spacing:-.07em;margin:11px 0;color:#272a48}.nova-category-intro p{color:#81839a;font-size:11px;margin:8px 0 0}
+.nova-category-tile{display:flex;flex-direction:column;background:#faf7ef;border:0;padding:0;text-align:left;min-width:0;cursor:pointer;color:#272a48;transition:transform .18s}
+.nova-category-tile:hover{transform:translateY(-3px)}.nova-category-tile:focus-visible{outline:3px solid #3547ed;outline-offset:3px}
+.nova-category-photo{width:100%;height:132px;background:#f4eee6;display:block;overflow:hidden}.nova-category-photo img{width:100%;height:100%;object-fit:cover;transition:transform .18s}.nova-category-tile:hover img{transform:scale(1.05)}
+.nova-category-tile>span:last-child{display:flex;align-items:center;justify-content:space-between;gap:5px;width:100%;font:850 10px 'DM Sans',sans-serif;letter-spacing:.1em;padding:11px 9px 12px}
+.store .retail-category-tabs button.active{background:#3547ed!important;color:#fff!important;border-color:#3547ed!important}.store .retail-category-tabs button:hover{border-color:#3547ed!important}
+.store .retail-browse-banner{background:#282946!important;color:#fff!important}.store .retail-browse-banner span{color:#d8d6eb!important}.store .retail-browse-counter{color:#f2f19d!important}
+.store .retail-card{border-radius:7px!important;box-shadow:0 5px 25px #2728490b!important}.store .retail-card:hover{box-shadow:0 15px 35px #27284925!important}
+.store .retail-style-promo{border-radius:6px!important;background:#e9ebff!important;border-color:#d9ddfb!important}.store .retail-style-promo span{color:#3547ed!important}.store .retail-style-promo>a{background:#3547ed!important;color:white!important}
+.store-footer{background:#282946!important;color:#fffdf4!important}.store-footer strong span{color:#f2f19d!important}
+@media(max-width:1200px){.nova-category-rail{grid-template-columns:repeat(5,minmax(130px,1fr));overflow-x:auto}.nova-category-intro{grid-column:1/-1}.nova-category-intro h2 br{display:none}.store-header nav{gap:10px!important}}
+@media(max-width:720px){.store-header{min-height:72px!important;height:auto!important;padding:12px 17px!important}.store-header nav{flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding-bottom:8px}.store-header-actions>span{display:none}.nova-category-rail{padding:16px;gap:9px}.nova-category-photo{height:106px}.nova-category-tile>span:last-child{font-size:9px}.store-demo-ribbon{font-size:8px!important;gap:6px}.store-hero-text h1{font-size:clamp(46px,9vw,66px)!important}}

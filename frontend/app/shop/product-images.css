@@ -1,0 +1,22 @@
+/* self-hosted synthetic fashion photography, shared by storefront, cart & style studio. */
+.retail-photo { background: #f2eae3; position: relative; overflow: hidden; display: block; min-width: 0; }
+.retail-photo img { width: 100%; height: 100%; display: block; object-fit: contain; }
+.retail-photo-fallback { height: 100%; min-height: 60px; width: 100%; display: grid; place-items: center; color: #8ca094; background: #f2f4f0; }
+.retail-product-visual .retail-photo { width: 100%; height: 100%; }
+.retail-card .retail-photo img { transition: transform .35s ease; }
+.retail-card:hover .retail-photo img { transform: scale(1.045); }
+.retail-product-dialog .retail-photo img { object-fit: contain; }
+.retail-cart-product-mark.retail-photo { padding: 0; flex: 0 0 70px; border-radius: 8px; }
+.stylelab-item-art { position: relative; padding: 0 !important; display: block !important; background: #f2eae3 !important; }
+.stylelab-item-art .retail-photo { width: 100%; height: 100%; }
+.stylelab-item-art .stylelab-art-label { position: absolute; left: 5px; bottom: 5px; right: 5px; border-radius: 3px; background: #fffffff0; padding: 3px 4px; font-size: 7px; line-height: 1.4; font-weight: 900; letter-spacing: .04em; color: #3d5b50; }
+.three-look-item-photo.retail-photo { width: 58px; height: 62px; border-radius: 6px; }
+.three-look-item { grid-template-columns: 58px minmax(0,1fr) auto 65px !important; }
+.rescue-owned-photo.retail-photo { width: 68px; height: 80px; flex: 0 0 68px; border-radius: 7px; }
+.rescue-owned-photo.retail-photo img { object-fit: contain; }
+@media(max-width:560px){
+  .three-look-item { grid-template-columns: 48px minmax(0,1fr) auto !important; }
+  .three-look-item-photo.retail-photo { width: 48px; height: 55px; }
+  .three-look-item button, .three-look-owned { grid-column: 2 / 4; justify-self: end; }
+  .stylelab-item-art .stylelab-art-label { font-size: 6px; }
+}

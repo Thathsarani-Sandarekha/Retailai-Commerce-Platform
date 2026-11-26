@@ -1,0 +1,10 @@
+/* Northstar Edit - premium manager workspace, presentation-only theme. */
+.mg-shell{background:#f8f6f4!important;color:#22202b!important;font-family:'DM Sans',Arial,sans-serif!important}
+.mg-side{background:linear-gradient(145deg,#1c1b25,#12121a)!important;color:#f6eff6!important;border-right:1px solid #3e3543!important}
+.mg-brand{color:#fff!important}.mg-brand>span{background:#ff7429!important;color:#1a1420!important;border-radius:8px!important}.mg-brand strong{color:#aaa0b3!important}
+.mg-side>a,.mg-side>button{color:#ccc5d0!important}.mg-side>a:hover,.mg-side>button:hover{background:#352e3d!important;color:white!important}.mg-side>button.selected{background:#ff722b!important;color:#211925!important;box-shadow:none!important}
+.mg-aside-foot{border-color:#514855!important;color:#a9a0ae!important}.mg-aside-foot svg{color:#ff7f41!important}
+.mg-top{background:#fff!important;border-color:#ece5e1!important;color:#9c929b!important}.mg-sandbox{color:#b96537!important}.mg-heading p,.mg-panel-head small,.mg-modal-heading small{color:#e4672a!important}.mg-heading h1{font-family:'Space Grotesk',sans-serif!important;color:#23212e!important}.mg-heading span{color:#857e88!important}.mg-heading button{background:#fff!important;color:#b95725!important;border-color:#e9e0db!important}
+.mg-summary>div,.mg-panel,.mg-modal{background:#fff!important;border:1px solid #eae3df!important;border-radius:12px!important;box-shadow:0 8px 24px #19141f09!important}.mg-summary svg{color:#f36d2d!important}.mg-summary strong,.mg-panel-head h2{color:#27202f!important}.mg-search{border-color:#e5deda!important}.mg-search input{color:#342c36!important}.mg-table th{background:#faf7f5!important;color:#7b727d!important}.mg-table td{border-bottom-color:#eee8e5!important;color:#554c58!important}.mg-table td strong{color:#302636!important}
+.mg-primary{background:#ff722a!important;color:#201721!important;border-color:#ff722a!important}
+@media(max-width:800px){.mg-side{width:100%!important}}

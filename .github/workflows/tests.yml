@@ -1,0 +1,46 @@
+name: API and frontend checks
+on:
+  push:
+  pull_request:
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install backend
+        run: pip install -r requirements.txt
+      - name: Backend tests and UI contract
+        run: python -m pytest -q
+      - name: Validate AWS reference packaging (no AWS access)
+        run: python -m scripts.check_aws_packaging
+      - name: Verify initial Alembic migrations (ephemeral SQLite, no AWS)
+        run: python -m scripts.check_migrations
+      - name: Reproducible offline evaluation (no API key)
+        run: python -m scripts.evaluate_retailai --mode offline
+      - name: Archive synthetic evaluation evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: retailai-offline-evaluation
+          path: |
+            evaluation/results/offline_report.json
+            evaluation/results/offline_report.md
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install frontend
+        run: npm install --no-audit --no-fund
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Production build
+        run: npm run build

@@ -1,0 +1,35 @@
+# Credentials, local state and data
+.env
+.env.*
+!.env.example
+backend/.env
+frontend/.env.local
+frontend/.env.*.local
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+*.log
+.coverage
+htmlcov/
+.retailai_storage/
+**/.retailai_storage/
+*.zip
+# Frontend build output
+frontend/node_modules/
+frontend/.next/
+frontend/tsconfig.tsbuildinfo
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+# Local SQLite snapshots made by the optional screenshot-data seeder
+*.bak
+*.before-showcase-*
+/evaluation/
+

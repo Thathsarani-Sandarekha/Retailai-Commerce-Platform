@@ -1,0 +1,37 @@
+{
+  "family": "retailai-frontend",
+  "requiresCompatibilities": ["FARGATE"],
+  "networkMode": "awsvpc",
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::REPLACE_ACCOUNT_ID:role/retailai-ecs-execution-role",
+  "taskRoleArn": "arn:aws:iam::REPLACE_ACCOUNT_ID:role/retailai-ecs-web-task-role",
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "containerDefinitions": [
+    {
+      "name": "retailai-frontend",
+      "image": "REPLACE_ACCOUNT_ID.dkr.ecr.REPLACE_REGION.amazonaws.com/retailai-frontend:sha-REPLACE_COMMIT_SHA12",
+      "essential": true,
+      "portMappings": [
+        { "containerPort": 3000, "protocol": "tcp" }
+      ],
+      "environment": [
+        { "name": "NODE_ENV", "value": "production" },
+        { "name": "DEMO_UI_ENABLED", "value": "false" },
+        { "name": "BACKEND_URL", "value": "http://REPLACE_PRIVATE_API_DNS:8000" }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/retailai/frontend",
+          "awslogs-region": "REPLACE_REGION",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "readonlyRootFilesystem": false
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+# Local fictional-store demo only. Both published ports bind to loopback.
+services:
+  api:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      DATABASE_URL: sqlite:////app/data/sportswear_demo.db
+      # Groq is OPTIONAL in Docker; scripted sandbox is always available.
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_MODEL: ${GROQ_MODEL:-openai/gpt-oss-120b}
+      # Catalog image backend; local mode is persisted in a named volume.
+      RETAILAI_STORAGE_BACKEND: ${RETAILAI_STORAGE_BACKEND:-local}
+      RETAILAI_STORAGE_LOCAL_DIR: /app/media
+      RETAILAI_S3_BUCKET: ${RETAILAI_S3_BUCKET:-}
+      RETAILAI_S3_PREFIX: ${RETAILAI_S3_PREFIX:-retailai}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
+    volumes:
+      - demo_data:/app/data
+      - demo_media:/app/media
+  frontend:
+    build: ./frontend
+    depends_on: [api]
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      BACKEND_URL: http://api:8000
+      DOCKER_DEMO_BACKEND_HOST: api
+      DEMO_UI_ENABLED: "true"
+      DEMO_STAFF_TOKEN: demo-northstar-agent
+      DEMO_MANAGER_TOKEN: demo-northstar-manager
+      DEMO_CUSTOMER_C3_TOKEN: demo-northstar-customer-c3
+volumes:
+  demo_data:
+  demo_media:

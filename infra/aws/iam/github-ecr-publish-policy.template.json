@@ -1,0 +1,26 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AuthenticateDockerToECR",
+      "Effect": "Allow",
+      "Action": ["ecr:GetAuthorizationToken"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "PushOnlyRetailAIContainerImages",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:CompleteLayerUpload",
+        "ecr:InitiateLayerUpload",
+        "ecr:PutImage",
+        "ecr:UploadLayerPart"
+      ],
+      "Resource": [
+        "arn:aws:ecr:REPLACE_REGION:REPLACE_ACCOUNT_ID:repository/retailai-api",
+        "arn:aws:ecr:REPLACE_REGION:REPLACE_ACCOUNT_ID:repository/retailai-frontend"
+      ]
+    }
+  ]
+}

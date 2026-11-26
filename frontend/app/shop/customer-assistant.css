@@ -1,0 +1,209 @@
+/* RetailAI customer assistant — isolated from the internal support console. */
+.retail-assistant-root{--ra-ink:#18352f;--ra-muted:#71877f;--ra-green:#1f5145;--ra-orange:#d97858;--ra-line:#e4ece6;font-family:Arial,Helvetica,sans-serif;color:var(--ra-ink)}
+.retail-assistant-root *{box-sizing:border-box}
+.retail-assistant-root button,.retail-assistant-root select,.retail-assistant-root input,.retail-assistant-root textarea{font:inherit}
+.retail-assistant-root button{cursor:pointer}
+.retail-assistant-root button:disabled{opacity:.52;cursor:not-allowed}
+.retail-assistant-root button:focus-visible,.retail-assistant-root textarea:focus-visible,.retail-assistant-root select:focus-visible,.retail-assistant-root input:focus-visible{outline:3px solid #80b4a1;outline-offset:2px}
+.retail-chat-fab{z-index:450;position:fixed;bottom:26px;right:28px;display:flex;align-items:center;gap:12px;padding:10px 21px 10px 10px;border:0;border-radius:100px;background:#1e4b43;color:#fff;box-shadow:0 12px 35px #133b3190;transition:transform .18s ease,box-shadow .18s ease}
+.retail-chat-fab:hover{transform:translateY(-3px);box-shadow:0 16px 38px #133b31aa}
+.retail-chat-fab-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#d87555;position:relative}
+.retail-fab-sparkle{position:absolute;top:-3px;right:-3px;background:white;color:#ce795c;border-radius:50%;height:18px;width:18px;display:grid;place-items:center}
+.retail-chat-fab-copy{display:flex;flex-direction:column;text-align:left;gap:2px}
+.retail-chat-fab-copy strong{font-size:13px;font-weight:800}
+.retail-chat-fab-copy small{font-size:10px;color:#cbe5da}
+.retail-chat-backdrop{position:fixed;inset:0;z-index:499;border:0;background:#10282177;cursor:default}
+.retail-chat-drawer{position:fixed;right:0;top:0;bottom:0;width:min(490px,100vw);z-index:500;background:#fbfcfa;box-shadow:-16px 0 50px #102e2c45;display:flex;flex-direction:column;min-height:0;animation:retail-chat-enter .24s ease-out;border-left:1px solid #dfe9e2}
+@keyframes retail-chat-enter{from{transform:translateX(45px);opacity:.68}to{transform:translateX(0);opacity:1}}
+.retail-chat-drawer-header{padding:22px 21px;display:flex;justify-content:space-between;align-items:center;gap:12px;background:#173e36;color:#fff}
+.retail-chat-drawer-brand{display:flex;gap:12px;align-items:center;min-width:0}
+.retail-chat-drawer-brand>div:last-child{display:flex;flex-direction:column;gap:6px;min-width:0}
+.retail-chat-brand-icon{background:#e4f2eb;color:#30745e;display:grid;place-items:center;border-radius:13px;width:43px;height:43px;flex-shrink:0}
+.retail-chat-drawer-brand strong{font-size:16px;letter-spacing:-.02em}
+.retail-chat-drawer-brand small{font-size:10px;color:#b8d9c9;display:flex;gap:7px;align-items:center}
+.retail-chat-drawer-brand i{background:#60c6a2;border-radius:50%;height:7px;width:7px;display:inline-block}
+.retail-chat-icon-button{border:1px solid #6c9384;border-radius:10px;height:35px;width:35px;display:grid;place-items:center;background:#244e43;color:#fff;flex-shrink:0}
+.retail-chat-demo-note{font-size:10px;letter-spacing:.04em;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:#eaf4ee;color:#668578}
+.retail-chat-tabs{display:grid;grid-template-columns:1fr 1.4fr 1fr;background:white;border-bottom:1px solid var(--ra-line)}
+.retail-chat-tabs button{display:flex;gap:7px;align-items:center;justify-content:center;padding:14px 5px 12px;border:0;border-bottom:3px solid transparent;background:transparent;color:#72857c;font-size:11px;font-weight:700;white-space:nowrap}
+.retail-chat-tabs button.selected{border-color:var(--ra-orange);color:#1a5546;background:#f9fbf9}
+.retail-chat-feedback{padding:10px 18px;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
+.retail-chat-feedback.error{background:#fff0eb;color:#a24a39}
+.retail-chat-feedback.success{background:#e8f5ed;color:#2e7154}
+.retail-chat-select-ticket{display:flex;align-items:center;gap:9px;justify-content:space-between;padding:12px 18px;background:#fff;border-bottom:1px solid var(--ra-line)}
+.retail-chat-select-ticket label{color:#748b80;font-size:10px;font-weight:800;white-space:nowrap}
+.retail-chat-select-ticket select{border:1px solid #d6e6db;border-radius:7px;background:#f7faf8;padding:8px 10px;max-width:70%;font-size:11px;color:#284f43}
+.retail-chat-scroll{min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;padding:22px 20px;display:flex;flex-direction:column;gap:15px}
+.retail-chat-intro{text-align:center;padding:2px 24px 10px}
+.retail-chat-intro>div{display:grid;place-items:center;width:46px;height:46px;margin:0 auto 12px;border-radius:16px;background:#e6f1eb;color:#538573}
+.retail-chat-intro strong{font-size:15px}
+.retail-chat-intro p{font-size:11px;line-height:1.65;color:#7f958a;margin:7px 0}
+.retail-chat-bubble{display:flex;flex-direction:column;max-width:92%;gap:5px;align-self:flex-start}
+.retail-chat-bubble.user{align-self:flex-end}
+.retail-chat-bubble small{font-size:9px;font-weight:800;color:#8aa098;letter-spacing:.08em}
+.retail-chat-bubble.user small{text-align:right}
+.retail-chat-bubble p{margin:0;padding:13px 14px;white-space:pre-wrap;overflow-wrap:anywhere;background:#eaf4ed;border-radius:13px 13px 13px 3px;color:#2e5145;font-size:12px;line-height:1.65}
+.retail-chat-bubble.user p{background:#f7e9e0;color:#523c32;border-radius:13px 13px 3px 13px}
+.retail-chat-typing{font-size:11px;color:#668176;display:flex;align-items:center;gap:5px}
+.retail-chat-typing span{height:5px;width:5px;background:#63b093;border-radius:50%}
+.retail-chat-suggestions{display:flex;gap:7px;padding:0 17px 12px;flex-wrap:wrap}
+.retail-chat-suggestions button{background:#eff6f1;border:1px solid #cfe5d8;border-radius:15px;padding:7px 10px;color:#3c7460;font-size:10px;font-weight:700}
+.retail-chat-compose{border-top:1px solid var(--ra-line);padding:14px 17px 10px;background:#fff;display:flex;gap:9px;align-items:flex-end}
+.retail-chat-compose textarea{flex:1;min-width:0;resize:none;background:#f8faf8;border:1px solid #d7e5dc;border-radius:10px;padding:13px;color:#233f36;line-height:1.5;font-size:12px;max-height:140px}
+.retail-chat-compose>button{width:44px;height:44px;flex-shrink:0;display:grid;place-items:center;border:0;border-radius:10px;background:#d87555;color:white}
+.retail-chat-disclaimer{background:white;color:#9aaba3;font-size:9px;padding:4px 18px 12px;display:flex;align-items:center;gap:6px}
+.retail-chat-drawer-footer{border-top:1px solid var(--ra-line);display:flex;justify-content:center;align-items:center;gap:7px;padding:10px;font-size:9px;letter-spacing:.03em;color:#82978a;background:#f4f7f3}
+.retail-chat-actions{background:#f9faf8}
+.retail-chat-panel-intro>span{font-size:9px;letter-spacing:.13em;color:#c17d63;font-weight:800}
+.retail-chat-panel-intro h3{font-size:22px;margin:7px 0;letter-spacing:-.04em;color:#1b3c31}
+.retail-chat-panel-intro p{font-size:12px;color:#809286;line-height:1.6;margin:0}
+.retail-chat-order{background:#fff;border:1px solid #e1ece4;padding:14px;border-radius:10px}
+.retail-chat-order-top,.retail-chat-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.retail-chat-order-top strong{font-size:12px}
+.retail-chat-order-top span{color:#3b8965;background:#edf7ee;border-radius:20px;padding:4px 8px;font-size:10px}
+.retail-chat-order p{font-size:11px;line-height:1.5;color:#667b70;margin:10px 0}
+.retail-chat-order small{display:flex;align-items:center;gap:6px;color:#78948a;font-size:10px}
+.retail-chat-toggle{display:flex;align-items:center;justify-content:space-between;background:#eaf3ec;color:#295b48;border:1px solid #c9ded0;border-radius:10px;padding:15px;width:100%;font-size:12px;font-weight:800}
+.retail-chat-toggle span{display:flex;align-items:center;gap:8px}
+.retail-chat-exchange-form{display:flex;flex-direction:column;gap:11px;padding:16px 14px;background:white;border:1px solid #e1e9e2;border-radius:10px}
+.retail-chat-muted{color:#788e80;line-height:1.6;font-size:11px;margin:2px 0 8px}
+.retail-chat-row{border-bottom:1px solid #ebf0ec;padding:8px 0;font-size:11px}
+.retail-chat-row span{color:#7d9385}
+.retail-chat-row strong{font-size:11px;text-align:right}
+.retail-chat-exchange-form label,.retail-chat-actions>label{font-size:11px;font-weight:800;color:#4c6a59}
+.retail-chat-exchange-form select,.retail-chat-actions>select,.retail-chat-actions>input,.retail-chat-actions>textarea{width:100%;border:1px solid #d6e5da;background:#fff;color:#2f5344;border-radius:7px;padding:11px;font-size:12px;min-width:0}
+.retail-chat-stock{color:#3c946e;font-size:11px;display:flex;gap:8px;align-items:center}
+.retail-chat-stock span{height:7px;width:7px;border-radius:50%;background:#53bc86}
+.retail-chat-action-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;padding:13px 12px;background:#d97858;border:0;color:white;border-radius:8px;font-size:12px;font-weight:800}
+.retail-chat-preview{padding:12px;border-radius:9px;background:#eff7f0;border:1px solid #d5e8d8;font-size:11px;line-height:1.6;color:#456c52}
+.retail-chat-preview strong{color:#29604c}
+.retail-chat-preview p{margin:6px 0}
+.retail-chat-confirm{display:flex;flex-direction:column;gap:14px}
+.retail-chat-confirm label{display:flex;align-items:flex-start;gap:9px;line-height:1.55;font-size:11px;font-weight:500}
+.retail-chat-confirm input{margin-top:3px;accent-color:#286b50}
+.retail-chat-request-status{display:flex;gap:9px;background:#e8f5ec;border:1px solid #cde7d3;padding:14px;border-radius:9px;color:#377855;overflow-wrap:anywhere}
+.retail-chat-request-status>div{min-width:0}
+.retail-chat-request-status strong{font-size:12px}
+.retail-chat-request-status p,.retail-chat-request-status small{font-size:10px;line-height:1.5}
+.retail-chat-refresh{border:1px solid #d6e7db;background:white;display:flex;gap:7px;justify-content:center;align-items:center;border-radius:8px;padding:10px;color:#447760;font-size:11px}
+.retail-chat-human-note{display:flex;gap:9px;align-items:flex-start;color:#7b9385;background:#eef5ef;border-radius:8px;padding:12px;font-size:11px;line-height:1.6}
+.retail-nav-chat{display:flex;align-items:center;gap:7px;border:0;background:transparent;color:#344d51;font-size:11px;font-weight:800;letter-spacing:.12em;padding:0}
+.store .store-hero-cta{border:0;cursor:pointer}
+.store .store-hero-cta:hover{background:#e68b6c}
+.retail-order-help{background:transparent;color:#bd7058;border:0;padding:13px 0 0;display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800}
+.store-footer button{background:transparent;border:0;color:inherit;display:flex;align-items:center;gap:7px;cursor:pointer}
+@media(max-width:620px){.retail-chat-fab{right:13px;bottom:15px;padding:9px 12px}.retail-chat-fab-copy{display:none}.retail-chat-fab-icon{width:47px;height:47px}.retail-chat-drawer{width:100vw;max-width:none}.retail-chat-tabs button{font-size:10px;gap:5px}.retail-chat-drawer-header{padding:17px}.retail-chat-scroll{padding:18px 14px}.retail-chat-select-ticket{padding:10px 14px}.store-header nav .retail-nav-chat{font-size:0}.store-header nav .retail-nav-chat svg{width:20px;height:20px}}
+@media(prefers-reduced-motion:reduce){.retail-chat-drawer{animation:none}.retail-chat-fab{transition:none}}
+
+/* confirmation-gated AI shopping suggestion */
+.retail-chat-cart-proposal { margin: 16px 4px; padding: 15px; border: 1px solid #bdd7c9; border-radius: 14px; background: #f0f8f3; color: #183c30; }
+.retail-chat-cart-proposal p { font-size: 13px; margin: 7px 0; line-height: 1.5; }
+.retail-chat-cart-proposal small { display: block; font-size: 11px; line-height: 1.5; opacity: .8; }
+.retail-chat-cart-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.retail-chat-cart-actions button { border-radius: 9px; padding: 10px 12px; cursor: pointer; border: 1px solid #aacdbb; color: #17372e; background: white; font-weight: 650; font-size: 12px; }
+.retail-chat-cart-actions button:first-child { color: white; background: #215c48; display: inline-flex; align-items: center; gap: 7px; }
+.retail-chat-cart-actions button:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Immediate chat feedback: optimistic customer bubble and delivery recovery. */
+.retail-chat-optimistic.sending p{opacity:.8}
+.retail-chat-optimistic.failed p{border:1px solid #d99b87;background:#fff0e9}
+.retail-chat-restore{align-self:flex-end;border:1px solid #d3a28f;background:#fff7f2;color:#9b4c35;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700}
+.retail-chat-typing span{animation:retail-chat-pulse 1.1s ease-in-out infinite alternate}
+.retail-chat-typing span:nth-child(2){animation-delay:.18s}
+.retail-chat-typing span:nth-child(3){animation-delay:.36s}
+@keyframes retail-chat-pulse{from{opacity:.3;transform:translateY(0)}to{opacity:1;transform:translateY(-3px)}}
+@media(prefers-reduced-motion:reduce){.retail-chat-typing span{animation:none}}
+
+
+/* RETAILAI EDITORIAL UI — Northstar Edit v1; presentation-only overrides */
+
+/* Style concierge / branded cobalt interactive assistant. */
+.retail-assistant-root{--ra-ink:#24263f;--ra-muted:#75788a;--ra-green:#3547ed;--ra-orange:#3547ed;--ra-line:#e4dfd9;font-family:'DM Sans',Arial,sans-serif}
+.retail-assistant-root button:focus-visible,.retail-assistant-root textarea:focus-visible,.retail-assistant-root select:focus-visible,.retail-assistant-root input:focus-visible{outline-color:#3547ed}
+.retail-chat-fab{background:#3547ed!important;color:#fff!important;border:2px solid #faf7ee!important;border-radius:3px!important;box-shadow:7px 8px 0 #c7cdfb!important}
+.retail-chat-fab-icon{background:#f3f39f!important;color:#252945!important}.retail-fab-sparkle{color:#f3f39f!important}
+.retail-chat-drawer{background:#fffdf8!important;border-left-color:#e4dfd8!important}.retail-chat-drawer-header{background:#252541!important;color:#fff!important}.retail-chat-drawer-brand{color:#fff!important}.retail-chat-brand-icon{background:#f3f39f!important;color:#202640!important}
+.retail-chat-tabs button[aria-selected="true"],.retail-chat-tabs button.active{color:#3547ed!important;border-color:#3547ed!important}.retail-chat-scroll{background:#faf7ef!important}.retail-chat-intro{background:#f1f0ff!important}.retail-chat-suggestions button{border-color:#cdd3ff!important;color:#3547ed!important;background:#fff!important;border-radius:3px!important}
+.retail-chat-compose button,.retail-chat-action-btn,.retail-chat-confirm{background:#3547ed!important;color:#fff!important;border-radius:3px!important}.retail-chat-bubble.user,.retail-chat-bubble.customer{background:#3547ed!important;color:white!important}.retail-nav-chat{color:#3547ed!important;border-color:#3547ed!important}.retail-nav-chat:hover{background:#e9ecff!important}
+
+
+/* NOVA EDIT / fashion concierge: integrated with existing customer workflows. */
+.retail-assistant-root{--ra-ink:#252642;--ra-muted:#6b7087;--ra-green:#3446e6;--ra-orange:#3446e6;--ra-line:#e5e1d7;font-family:'DM Sans',Arial,sans-serif;color:#252642}
+.retail-chat-fab{right:26px!important;bottom:23px!important;display:flex!important;align-items:center!important;gap:10px!important;padding:6px 17px 6px 6px!important;border:2px solid #f2efb2!important;border-radius:100px!important;background:#282a48!important;color:white!important;box-shadow:0 13px 36px #19194355,0 0 0 4px #b6bfff66!important}
+.retail-chat-fab:hover{transform:translateY(-4px)!important;box-shadow:0 19px 45px #19194366,0 0 0 5px #b6bfff99!important}
+.retail-chat-fab-icon.ns-bot-fab-icon{width:64px!important;height:64px!important;flex:none;background:radial-gradient(circle at 35% 30%,#fbf9ca,#aeb7ff)!important;border-radius:50%!important;overflow:hidden!important;position:relative}
+.ns-bot-fab-icon>img{width:72px!important;height:72px!important;object-fit:contain!important;transform:translateY(8px);filter:hue-rotate(160deg) saturate(.95)}
+.ns-bot-online{position:absolute;right:2px;bottom:2px;width:12px;height:12px;background:#4bdb9a;border:2px solid #293050;border-radius:50%;z-index:2}
+.retail-chat-fab-copy{display:flex!important;flex-direction:column;gap:2px!important}.retail-chat-fab-copy strong{color:white!important;font:800 13px 'Space Grotesk',sans-serif;letter-spacing:.005em}.retail-chat-fab-copy small{color:#e2e5ff!important;font-size:10px}
+.retail-chat-backdrop{background:#19183166!important;backdrop-filter:blur(3px)}
+.retail-chat-drawer{top:clamp(16px,4vh,38px)!important;bottom:clamp(16px,4vh,38px)!important;right:clamp(12px,2vw,28px)!important;width:min(430px,calc(100vw - 24px))!important;border:1px solid #dad6e7!important;border-radius:20px!important;background:#fffdf8!important;overflow:hidden!important;box-shadow:0 25px 75px #1b1a394f!important}
+.retail-chat-drawer-header{padding:16px 18px!important;background:#252642!important;min-height:70px}
+.retail-chat-drawer-brand strong{font:800 14px 'Space Grotesk',sans-serif!important;color:#fff}.retail-chat-drawer-brand strong span{color:#f1efa0}.retail-chat-drawer-brand small{font-size:9px!important;letter-spacing:.07em!important;color:#dddaf0!important}
+.retail-chat-brand-icon{background:#efeea1!important;border:0;border-radius:11px!important;color:#252642!important}.retail-chat-icon-button{background:#343653!important;color:#fff!important;border-color:#535577!important;border-radius:9px!important}
+.ns-chat-mascot-banner{height:151px;position:relative;display:flex;align-items:center;flex-shrink:0;background:radial-gradient(circle at 19% 70%,#6966b8 0%,transparent 37%),linear-gradient(120deg,#292a50,#1b1c38);overflow:hidden;padding:10px 13px 8px;border-bottom:1px solid #444360}
+.ns-chat-robot-glow{pointer-events:none;position:absolute;left:-45px;top:34px;width:255px;height:187px;border:1px solid #f2edaa99;border-radius:50%;transform:rotate(-23deg);box-shadow:0 0 40px #a7a5ed55}
+.ns-chat-robot-image{width:147px!important;height:147px!important;object-fit:contain!important;position:relative;flex-shrink:0;transform:translate(-14px,10px);filter:hue-rotate(160deg) saturate(.95) drop-shadow(0 5px 8px #11112866)}
+.ns-chat-robot-copy{position:relative;z-index:1;flex:1;min-width:0;margin-left:-15px;color:#fff}
+.ns-chat-robot-copy>span{display:flex;align-items:center;gap:5px;color:#f4f0ac;font-size:9px;font-weight:800;letter-spacing:.1em}
+.ns-chat-robot-copy>strong{display:block;margin:8px 0 6px;font:800 23px 'Space Grotesk',sans-serif;letter-spacing:-.07em;line-height:1.05}
+.ns-chat-robot-copy>strong em{color:#f1ef94;font-style:normal}.ns-chat-robot-copy p{color:#dddbea;font-size:10px;line-height:1.55;margin:0}
+.ns-chat-mascot-compact{height:76px;padding:3px 15px}.ns-chat-mascot-compact .ns-chat-robot-image{width:80px!important;height:80px!important;transform:translate(-6px,8px)}.ns-chat-mascot-compact .ns-chat-robot-copy{margin-left:3px}.ns-chat-mascot-compact .ns-chat-robot-copy>strong{font-size:17px;margin:0}.ns-chat-mascot-compact .ns-chat-robot-copy>span,.ns-chat-mascot-compact .ns-chat-robot-copy p{display:none}
+.retail-chat-demo-note{background:#f3f1dc!important;color:#636044!important;padding:7px 10px!important;font-size:9px!important}
+.retail-chat-tabs{background:white!important;border-bottom:1px solid #e9e4da!important}.retail-chat-tabs button{font-size:10px!important;min-width:0;color:#777b8e!important}.retail-chat-tabs button.selected{background:#f6f6ff!important;color:#3547ed!important;border-bottom:3px solid #3547ed!important}
+.retail-chat-select-ticket{background:#fff!important;border-color:#ede8dd!important}.retail-chat-select-ticket select{background:#faf8f1!important;border-color:#e4e0d7!important}
+.retail-chat-scroll{background:#faf7f0!important;min-height:0!important}.retail-chat-intro{background:#fff!important;border:1px solid #e6e2d7!important;border-radius:12px!important;padding:13px!important;margin:0!important;text-align:left!important}.retail-chat-intro strong{color:#252642;font-family:'Space Grotesk',sans-serif;font-size:12px}.retail-chat-intro p{font-size:11px;color:#717388;line-height:1.6;margin:6px 0 0}
+.retail-chat-bubble p{border-radius:14px 14px 14px 4px!important;background:white!important;color:#272a43!important;border:1px solid #e7e2da!important}.retail-chat-bubble.user p{background:#3547ed!important;color:white!important;border-color:#3547ed!important;border-radius:14px 14px 4px 14px!important}
+.retail-chat-suggestions{background:#faf7f0!important;flex-wrap:wrap!important;gap:6px!important}.retail-chat-suggestions button{border:1px solid #d9dcf3!important;border-radius:20px!important;background:white!important;color:#3445bb!important;font-size:10px!important;padding:9px 11px!important}.retail-chat-suggestions button:hover{border-color:#3446e6!important;background:#eef0ff!important}
+.retail-chat-compose{background:#fff!important;border-top:1px solid #e9e5dd!important}.retail-chat-compose textarea{background:#faf8f1!important;color:#252642!important;border:1px solid #dedbd9!important;border-radius:11px!important}.retail-chat-compose>button{background:#3547ed!important;border-radius:10px!important;color:white!important}.retail-chat-disclaimer,.retail-chat-drawer-footer{background:#fff!important;color:#8c8d97!important}
+.retail-chat-panel-intro>span{color:#3446e6!important}.retail-chat-action-btn,.retail-chat-cart-actions button:first-child{background:#3547ed!important;color:white!important;border-radius:8px!important;border-color:#3547ed!important}.retail-chat-cart-proposal{background:#f1f1ff!important;border-color:#d1d5ff!important}.retail-chat-cart-proposal strong{color:#343b81!important}
+@media(max-width:620px){.retail-chat-drawer{inset:0!important;width:100vw!important;max-width:none!important;border:0!important;border-radius:0!important}.retail-chat-fab{right:13px!important;bottom:13px!important;padding:5px!important}.retail-chat-fab-copy{display:none!important}.ns-chat-mascot-banner{height:125px}.ns-chat-robot-image{width:120px!important;height:120px!important}.ns-chat-robot-copy>strong{font-size:20px}}
+@media(prefers-reduced-motion:reduce){.retail-chat-fab{transition:none!important}}
+
+/* NORTHSTAR EDIT — NOVA, charcoal / coral concierge with the original blue-eyed robot. */
+.retail-assistant-root{--ra-ink:#201f29!important;--ra-muted:#736f76!important;--ra-green:#ff7127!important;--ra-orange:#ff7127!important;--ra-line:#e5dfda!important}
+.retail-chat-fab{background:#1c1c26!important;border:2px solid #ff8b45!important;box-shadow:0 14px 33px #16141b50,0 0 0 4px #ff76292b!important;border-radius:50px!important;bottom:22px!important;right:20px!important}
+.retail-chat-fab-icon.ns-bot-fab-icon{background:radial-gradient(circle at 43% 28%,#fff,#a8a8bd)!important;border:2px solid #ff9e56!important}
+.ns-bot-fab-icon>img,.ns-chat-robot-image{filter:drop-shadow(0 6px 9px #14111c66)!important}
+.retail-chat-fab-copy strong{font:900 13px 'Space Grotesk',sans-serif!important;color:#fff!important}.retail-chat-fab-copy small{color:#dbd5d6!important}
+.retail-chat-drawer{border-color:#3f3845!important;border-radius:20px!important;box-shadow:0 25px 80px #100e1866!important;background:#fffaf5!important;max-height:min(820px,calc(100vh - 32px))!important}
+.retail-chat-drawer-header{background:#1c1b25!important;color:white!important}.retail-chat-drawer-brand strong span{color:#ff8744!important}.retail-chat-brand-icon{background:#ff7127!important;border-radius:10px!important;color:#211b20!important}
+.retail-chat-icon-button{background:#302d36!important;border-color:#504852!important}
+.ns-chat-mascot-banner{background:radial-gradient(circle at 28% 75%,#ff622657,transparent 43%),linear-gradient(120deg,#26222c,#15161f)!important;border-bottom:1px solid #353039!important;height:163px!important}
+.ns-chat-robot-glow{border-color:#ff732caa!important;box-shadow:0 0 42px #ff672f55!important}
+.ns-chat-robot-image{width:156px!important;height:156px!important;transform:translate(-11px,10px)!important}
+.ns-chat-robot-copy>span{color:#ffb48b!important}.ns-chat-robot-copy>strong em{color:#ff7b35!important}.ns-chat-robot-copy p{color:#dad3da!important}
+.ns-chat-mascot-compact{height:78px!important}.ns-chat-mascot-compact .ns-chat-robot-image{width:84px!important;height:84px!important;transform:translate(-6px,7px)!important}
+.retail-chat-demo-note{background:#fcf2e9!important;color:#946a55!important}.retail-chat-tabs button.selected{background:#fff1e6!important;border-color:#ff792f!important;color:#b85016!important}
+.retail-chat-scroll,.retail-chat-suggestions{background:#faf6ef!important}.retail-chat-intro{border-color:#eee4dc!important}.retail-chat-suggestions button{border-color:#ead5c9!important;color:#b85722!important}.retail-chat-suggestions button:hover{background:#fff0e8!important;border-color:#ff873e!important}
+.retail-chat-compose textarea{background:#fffaf5!important;border-color:#e7dcd2!important;color:#2b2931!important}.retail-chat-compose>button,.retail-chat-action-btn,.retail-chat-cart-actions button:first-child{background:#ff7127!important;color:#18151b!important;border-color:#ff7127!important}
+.retail-chat-bubble.user p{background:#292532!important;border-color:#292532!important;color:white!important}.retail-chat-bubble:not(.user) p{border-color:#e7ddd7!important}
+.retail-chat-cart-proposal{background:#fff2e9!important;border-color:#ffd0b3!important}.retail-chat-cart-proposal strong{color:#8d411c!important}
+.retail-chat-panel-intro>span{color:#e06121!important}.retail-chat-drawer-footer{background:#fffaf5!important}
+.retail-assistant-root button:focus-visible,.retail-assistant-root textarea:focus-visible,.retail-assistant-root select:focus-visible{outline-color:#ff7c34!important}
+@media(max-width:620px){.retail-chat-fab{padding:5px!important}.ns-chat-mascot-banner{height:130px!important}.ns-chat-robot-image{width:123px!important;height:123px!important}}
+
+
+/* RELEASE POLISH: only the message bubble gets a background, not its parent.
+   Removes the unwanted cobalt strip behind the YOU label. */
+.retail-chat-bubble.user, .retail-chat-bubble.customer {
+  background: transparent !important;
+  color: inherit !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+.retail-chat-bubble.user small {
+  color: #9b7868 !important;
+  font-size: 10px !important;
+  letter-spacing: .055em !important;
+  margin-right: 2px;
+}
+
+.retail-chat-demo-pay {
+  display:block; width:100%; margin-top:10px; border:1px solid #ffc59b;
+  background:#fff0e5; color:#a84813; padding:10px 12px;
+  border-radius:9px; cursor:pointer; font-size:11px; font-weight:800;
+}
+.retail-chat-demo-pay:hover:not(:disabled){background:#ffe5d2}
+.retail-chat-demo-pay:disabled{opacity:.6;cursor:wait}
+.retail-chat-payment-complete{display:flex!important;align-items:center;gap:5px;margin-top:9px!important;color:#27815a!important}
