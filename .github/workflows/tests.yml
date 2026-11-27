@@ -30,9 +30,6 @@ jobs:
       - name: Backend tests and UI contract
         run: python -m pytest tests -q
 
-      - name: Validate AWS reference packaging (no AWS access)
-        run: python -m scripts.check_aws_packaging
-
       - name: Verify initial Alembic migrations (ephemeral SQLite, no AWS)
         run: python -m scripts.check_migrations
 

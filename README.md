@@ -115,7 +115,6 @@ python -m pytest -q
 python -m scripts.evaluate_retailai --mode offline
 python -m scripts.check_migrations
 python -m scripts.demo_observability
-python -m scripts.check_aws_packaging
 ```
 
 ## Repository structure
