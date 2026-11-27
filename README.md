@@ -82,13 +82,28 @@ Open **http://127.0.0.1:3000/shop** for the storefront or **http://127.0.0.1:300
 
 **Docker:** Run `docker compose up --build` at the project root to start both services.
 
-## End-to-end demonstration
+## Project Demo Videos
 
-1. Discover products using NOVA, catalog filters, or visual styling.
-2. Add products to the cart, review a checkout quote, and confirm an order.
-3. Request an exchange or submit a customer-support question.
-4. Open the business workspace to review orders, tickets, approvals, and inventory.
-5. Inspect activity metrics and event history across the shared backend.
+Explore RetailAI through product demonstrations, real-world retail workflows, and technical architecture walkthroughs.
+
+### Full Demonstrations
+
+| Video | Description | Watch |
+|---|---|---|
+| **RetailAI — Complete Platform Overview** | End-to-end walkthrough of the AI shopping experience and connected retail operations | [Watch Demo](VIDEO_1_URL) |
+| **Agentic & Multimodal AI Shopping** | NOVA assistant, product discovery, Three Looks, Style Rescue, and checkout | [Watch Demo](VIDEO_2_URL) |
+| **Retail Operations Platform** | Order management, inventory control, customer support, and exchange approvals | [Watch Demo](VIDEO_3_URL) |
+| **Engineering RetailAI — System Architecture** | LangGraph, Groq, FastAPI, tool calling, transaction safety, evaluations, and AWS reference architecture | [Watch Demo](VIDEO_4_URL) |
+
+### Feature Showcases
+
+| Feature | Watch |
+|---|---|
+| Meet NOVA — AI Shopping Assistant | [Watch Short](SHORT_1_URL) |
+| Multimodal Style Rescue | [Watch Short](SHORT_2_URL) |
+| From AI Conversation to Order | [Watch Short](SHORT_3_URL) |
+| Behind the AI Shopping Assistant | [Watch Short](SHORT_4_URL) |
+
 
 ## Evaluation & verification
 
