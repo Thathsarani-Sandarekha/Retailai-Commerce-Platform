@@ -15,7 +15,7 @@ A full-stack, portfolio-focused retail platform combining conversational product
 ![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=nextdotjs&logoColor=white)
 ![Demo](https://img.shields.io/badge/Environment-Synthetic_Local_Sandbox-64748B)
 
-**[Features](#what-it-does) · [System Architecture](#system-architecture) · [Quickstart](#how-to-run-the-code) · [Evaluation](#evaluation--verification) · [Demo](#end-to-end-demonstration) · [Repository](#repository-structure)**
+**[Features](#what-it-does) · [System Architecture](#system-architecture) · [Quickstart](#how-to-run-the-code) · [Evaluation](#evaluation--verification) · [Demo](#full-demonstrations) · [Repository](#repository-structure)**
 
 </div>
 
@@ -82,11 +82,7 @@ Open **http://127.0.0.1:3000/shop** for the storefront or **http://127.0.0.1:300
 
 **Docker:** Run `docker compose up --build` at the project root to start both services.
 
-## Project Demo Videos
-
-Explore RetailAI through product demonstrations, real-world retail workflows, and technical architecture walkthroughs.
-
-### Full Demonstrations
+## Full Demonstrations
 
 | Video | Description | Watch |
 |---|---|---|
